@@ -32,10 +32,11 @@ const expenseCategories = [
 ];
 
 const AddEntry = ({ onClose }) => {
-  useGetAllEntries();
-  useGetTotalExpense();
-  useGetTotalIncome();
-  useLastThreeMonthsSummary();
+  const getEntries = useGetAllEntries();
+  const getIncome = useGetTotalIncome();
+  const getExpense = useGetTotalExpense();
+  const getSummary = useLastThreeMonthsSummary();
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -62,7 +63,7 @@ const AddEntry = ({ onClose }) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/entry/create`,
+        "http://localhost:4000/api/entry/create",
         entryData,
         {
           headers: {
@@ -73,6 +74,12 @@ const AddEntry = ({ onClose }) => {
       );
       if (res.data.success) {
         dispatch(setEntry([res.data.entryData, ...entries]));
+        await Promise.all([
+          getEntries(),
+          getIncome(),
+          getExpense(),
+          getSummary(),
+        ]);
         navigate("/");
         toast.success(res.data.message);
         setEntryData({

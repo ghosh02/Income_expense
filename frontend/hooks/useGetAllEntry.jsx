@@ -1,4 +1,32 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
+// import axios from "axios";
+// import { useDispatch } from "react-redux";
+// import { setLastThreeMonthsIncome } from "../redux/entrySlice";
+
+// const useLastThreeMonthsSummary = () => {
+//   const dispatch = useDispatch();
+
+//   const fetchSummary = async () => {
+//     try {
+//       const res = await axios.get("http://localhost:4000/api/entry/summary", {
+//         withCredentials: true,
+//       });
+//       dispatch(setLastThreeMonthsIncome(res.data.data));
+//     } catch (err) {
+//       console.log(err);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchSummary();
+//   }, [dispatch]);
+
+//   return fetchSummary; // return fetcher
+// };
+
+// export default useLastThreeMonthsSummary;
+
+import { useEffect, useCallback } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setEntry } from "../redux/entrySlice";
@@ -6,27 +34,29 @@ import { setEntry } from "../redux/entrySlice";
 const useGetAllEntries = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchEntries = async () => {
-      try {
-        const response = await axios.get(
-          `${
-            import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-          }/api/entry/allEntry`,
-          {
-            withCredentials: true,
-          }
-        );
-        if (response.data.success) {
-          dispatch(setEntry(response.data.entries));
+  const fetchEntries = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/api/entry/allEntry",
+        {
+          withCredentials: true,
         }
-      } catch (error) {
-        console.log(error);
+      );
+      if (response.data.success) {
+        dispatch(setEntry(response.data.entries));
       }
-    };
-
-    return fetchEntries;
+      return response;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    fetchEntries();
+  }, [fetchEntries]);
+
+  return fetchEntries;
 };
 
 export default useGetAllEntries;

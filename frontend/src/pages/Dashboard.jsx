@@ -34,10 +34,14 @@ import MonthlyBarChart from "../components/MonthlyBarChart";
 import FinancialScoreCircle from "../components/FinancialScoreCircle";
 
 const Dashboard = () => {
-  useGetAllEntries();
-  useGetTotalExpense();
-  useGetTotalIncome();
-  useLastThreeMonthsSummary();
+  // useGetAllEntries();
+  // useGetTotalExpense();
+  // useGetTotalIncome();
+  // useLastThreeMonthsSummary();
+  const getEntries = useGetAllEntries();
+  const getIncome = useGetTotalIncome();
+  const getExpense = useGetTotalExpense();
+  const getSummary = useLastThreeMonthsSummary();
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +58,7 @@ const Dashboard = () => {
   const logoutHandler = async () => {
     try {
       await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/user/logout`,
+        "http://localhost:4000/api/user/logout",
         {},
         {
           headers: {

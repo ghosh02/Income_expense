@@ -10,8 +10,7 @@ const userRoute = require("./routes/user.route");
 const entryRoute = require("./routes/entry.route");
 const path = require("path");
 
-const filePath = path.join(__dirname, "../frontend/dist");
-
+const _dirname = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -25,10 +24,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/user", userRoute);
 app.use("/api/entry", entryRoute);
 
-app.use(express.static(filePath));
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend", "dist", "index.html"));
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+app.get("*", (_, res) => {
+  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
 });
+
 app.listen(port, () => {
   connectDB();
   console.log(`Server is running on port ${port}`);

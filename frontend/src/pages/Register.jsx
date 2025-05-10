@@ -26,7 +26,7 @@ const Register = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/user/register`,
+        "http://localhost:4000/api/user/register",
         input,
         {
           headers: {
