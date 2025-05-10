@@ -34,9 +34,12 @@ const useLastThreeMonthsSummary = () => {
 
   const fetchSummary = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/entry/summary", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "https://spendly-lm8q.onrender.com/api/entry/summary",
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data) {
         dispatch(setLastThreeMonthsIncome(res.data.data));
       }

@@ -26,7 +26,7 @@ const Register = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:4000/api/user/register",
+        "https://spendly-lm8q.onrender.com/api/user/register",
         input,
         {
           headers: {

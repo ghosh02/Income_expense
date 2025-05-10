@@ -58,7 +58,7 @@ const Dashboard = () => {
   const logoutHandler = async () => {
     try {
       await axios.post(
-        "http://localhost:4000/api/user/logout",
+        "https://spendly-lm8q.onrender.com/api/user/logout",
         {},
         {
           headers: {

@@ -37,7 +37,7 @@ const useGetAllEntries = () => {
   const fetchEntries = useCallback(async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/entry/allEntry",
+        "https://spendly-lm8q.onrender.com/api/entry/allEntry",
         {
           withCredentials: true,
         }
