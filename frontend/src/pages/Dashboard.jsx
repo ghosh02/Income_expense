@@ -176,6 +176,8 @@ const Dashboard = () => {
           getSummary(),
         ]);
         toast.success(res.data.message);
+        setIsDialogOpen(false);
+        setSelectedEntryId(null);
       }
     } catch (error) {
       console.error("Error deleting entry:", error.message);
