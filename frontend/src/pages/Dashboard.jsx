@@ -18,6 +18,13 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../components/ui/dialog";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -32,12 +39,9 @@ import AddEntry from "./AddEntry";
 import useLastThreeMonthsSummary from "../../hooks/useLastThreeMonthsSummary";
 import MonthlyBarChart from "../components/MonthlyBarChart";
 import FinancialScoreCircle from "../components/FinancialScoreCircle";
+import { setEntry } from "../../redux/entrySlice";
 
 const Dashboard = () => {
-  // useGetAllEntries();
-  // useGetTotalExpense();
-  // useGetTotalIncome();
-  // useLastThreeMonthsSummary();
   const getEntries = useGetAllEntries();
   const getIncome = useGetTotalIncome();
   const getExpense = useGetTotalExpense();
@@ -46,6 +50,8 @@ const Dashboard = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedEntryId, setSelectedEntryId] = useState(null);
 
   const openAddEntry = () => setShowAddModal(true);
   const closeAddEntry = () => setShowAddModal(false);
@@ -57,7 +63,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const logoutHandler = async () => {
     try {
-      await axios.post(
+      const res = await axios.post(
         "https://spendly-lm8q.onrender.com/api/user/logout",
         {},
         {
@@ -67,16 +73,16 @@ const Dashboard = () => {
           withCredentials: true,
         }
       );
-      dispatch(setAuthUser(null));
-      navigate("/login");
-      toast.success(res.data.message);
+      if (res.data.success) {
+        dispatch(setAuthUser(null));
+        navigate("/login");
+        toast.success(res.data.message);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  const addEntryHandler = () => {
-    navigate("/entry");
-  };
+
   const formatDate = (isoDate) => {
     const date = new Date(isoDate);
     const day = String(date.getDate()).padStart(2, "0");
@@ -144,6 +150,37 @@ const Dashboard = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [lastThreeMonthsIncome]);
+  const handleDelete = async (id) => {
+    if (!selectedEntryId) return;
+    try {
+      const res = await axios.delete(
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/api/entry/delete/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      const updatedEntries = entries.filter((entry) => entry._id !== id);
+      if (res.data.success) {
+        dispatch(setEntry(updatedEntries));
+        await Promise.all([
+          getEntries(),
+          getIncome(),
+          getExpense(),
+          getSummary(),
+        ]);
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.error("Error deleting entry:", error.message);
+      toast.error(error.response.data.message);
+    }
+  };
+  const confirmDelete = (id) => {
+    setSelectedEntryId(id);
+    setIsDialogOpen(true);
+  };
 
   return (
     <>
@@ -253,12 +290,7 @@ const Dashboard = () => {
                 Last 4 Months Summary
               </CardTitle>
             </CardHeader>
-            {/* <h2 className="text-xl font-semibold mb-4 sm:hidden">
-                Last 3 Months Summary
-              </h2>
-              <h2 className="text-xl font-semibold mb-4 max-sm:hidden">
-                Last 4 Months Summary
-              </h2> */}
+
             <MonthlyBarChart data={displayData} />
             {/* </div> */}
           </Card>
@@ -447,6 +479,14 @@ const Dashboard = () => {
                       <TableCell className="max-sm:hidden">
                         {entry.description || "-"}
                       </TableCell>
+                      <TableCell className="">
+                        <button
+                          onClick={() => confirmDelete(entry._id)}
+                          className=" "
+                        >
+                          <Trash2 className="w-4 h-4 text-red-600 hover:text-red-800 cursor-pointer" />
+                        </button>
+                      </TableCell>
                     </TableRow>
                   ))
                 )}
@@ -460,8 +500,7 @@ const Dashboard = () => {
               >
                 Previous
               </Button>
-              {/* <MoveLeft onClick={() => setCurrentPage((prev) => prev - 1)} />
-            <MoveRight onClick={() => setCurrentPage((prev) => prev + 1)} /> */}
+
               <Button
                 variant="outline"
                 disabled={currentPage === totalPages || totalPages === 0}
@@ -473,6 +512,36 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </div>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="w-[450px] h-[200px] items-center justify-center">
+          <style>
+            {`.absolute.top-4.right-4
+             {
+              display: none !important;
+              }`}
+          </style>
+          <DialogHeader>
+            <DialogTitle>
+              Are you sure you want to delete this entry?
+            </DialogTitle>
+          </DialogHeader>
+          <DialogFooter className="grid grid-cols-2 items-center gap-6">
+            <Button
+              className=" bg-slate-800 text-white cursor-pointer"
+              onClick={() => setIsDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              className=" text-white bg-red-600 hover:bg-red-800 cursor-pointer"
+              // variant="destructive"
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
           {/* <div className="bg-white p-6 rounded-xl w-full max-w-xl shadow-lg"> */}
