@@ -159,7 +159,7 @@ const Dashboard = () => {
     if (!selectedEntryId) return;
     try {
       const res = await axios.delete(
-        `https://spendly-lm8q.onrender.com/api/entry/delete/${id}`,
+        `https://spendly-lm8q.onrender.com/api/entry/delete/${selectedEntryId}`,
         {
           withCredentials: true,
         }
