@@ -150,7 +150,12 @@ const Dashboard = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [lastThreeMonthsIncome]);
-  const handleDelete = async (id) => {
+
+  const confirmDelete = (id) => {
+    setSelectedEntryId(id);
+    setIsDialogOpen(true);
+  };
+  const handleDelete = async () => {
     if (!selectedEntryId) return;
     try {
       const res = await axios.delete(
@@ -174,10 +179,6 @@ const Dashboard = () => {
       console.error("Error deleting entry:", error.message);
       toast.error(error.response.data.message);
     }
-  };
-  const confirmDelete = (id) => {
-    setSelectedEntryId(id);
-    setIsDialogOpen(true);
   };
 
   return (
