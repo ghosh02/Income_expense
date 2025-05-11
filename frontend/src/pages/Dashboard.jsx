@@ -33,7 +33,7 @@ import { toast } from "sonner";
 import useGetAllEntries from "../../hooks/useGetAllEntry";
 import useGetTotalExpense from "../../hooks/useGetTotalExpense";
 import useGetTotalIncome from "../../hooks/useGetTotalIncome";
-import { ChevronDown, ListFilter, LogOut, X } from "lucide-react";
+import { ChevronDown, ListFilter, LogOut, Trash2, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import AddEntry from "./AddEntry";
 import useLastThreeMonthsSummary from "../../hooks/useLastThreeMonthsSummary";
