@@ -38,6 +38,32 @@ module.exports.getAllEntries = async (req, res) => {
   }
 };
 
+module.exports.deleteEntry = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const entryId = req.params.id;
+
+    const entry = await Entry.findById(entryId);
+    if (!entry) {
+      return res.status(404).json({ message: "Entry not found" });
+    }
+
+    if (entry.userId.toString() !== userId.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to delete this entry" });
+    }
+
+    await Entry.findByIdAndDelete(entryId);
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Entry deleted successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports.getMonthlyIncome = async (req, res) => {
   try {
     const userId = req.user.id;
