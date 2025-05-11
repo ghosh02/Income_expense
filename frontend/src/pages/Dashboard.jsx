@@ -164,7 +164,9 @@ const Dashboard = () => {
           withCredentials: true,
         }
       );
-      const updatedEntries = entries.filter((entry) => entry._id !== id);
+      const updatedEntries = entries.filter(
+        (entry) => entry._id !== selectedEntryId
+      );
       if (res.data.success) {
         dispatch(setEntry(updatedEntries));
         await Promise.all([
