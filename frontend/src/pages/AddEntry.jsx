@@ -54,12 +54,21 @@ const AddEntry = ({ onClose }) => {
     setEntryData((prev) => ({
       ...prev,
       [key]: value,
-      ...(key === "type" && { category: "" }), // reset category if type changes
+      ...(key === "type" && { category: "" }),
     }));
   };
+  const isFormValid = Object.entries(entryData).every(
+    ([key, value]) =>
+      key === "description" ||
+      (typeof value === "string" && value.trim() !== "")
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isFormValid) {
+      toast.error("Please fill all input fields");
+      return;
+    }
     try {
       setLoading(true);
       const res = await axios.post(
@@ -199,12 +208,23 @@ const AddEntry = ({ onClose }) => {
         />
       </div>
 
-      <Button
-        type="submit"
-        className="w-full bg-blue-800 hover:bg-blue-900 text-white cursor-pointer"
-      >
-        Add Entry
-      </Button>
+      {loading ? (
+        <Button
+          className="w-full bg-blue-800 hover:bg-blue-900 text-white cursor-pointer"
+          disabled
+        >
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Please wait....
+        </Button>
+      ) : (
+        <Button
+          type="submit"
+          className="w-full bg-blue-800 hover:bg-blue-900 text-white cursor-pointer"
+          disabled={!isFormValid || loading}
+        >
+          Add Entry
+        </Button>
+      )}
     </form>
   );
 };

@@ -33,7 +33,14 @@ import { toast } from "sonner";
 import useGetAllEntries from "../../hooks/useGetAllEntry";
 import useGetTotalExpense from "../../hooks/useGetTotalExpense";
 import useGetTotalIncome from "../../hooks/useGetTotalIncome";
-import { ChevronDown, ListFilter, LogOut, Trash2, X } from "lucide-react";
+import {
+  ChevronDown,
+  ListFilter,
+  Loader2,
+  LogOut,
+  Trash2,
+  X,
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import AddEntry from "./AddEntry";
 import useLastThreeMonthsSummary from "../../hooks/useLastThreeMonthsSummary";
@@ -155,9 +162,11 @@ const Dashboard = () => {
     setSelectedEntryId(id);
     setIsDialogOpen(true);
   };
+  const [loading, setLoading] = useState(false);
   const handleDelete = async () => {
     if (!selectedEntryId) return;
     try {
+      setLoading(true);
       const res = await axios.delete(
         `https://spendly-lm8q.onrender.com/api/entry/delete/${selectedEntryId}`,
         {
@@ -182,6 +191,8 @@ const Dashboard = () => {
     } catch (error) {
       console.error("Error deleting entry:", error.message);
       toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -553,13 +564,22 @@ const Dashboard = () => {
             >
               Cancel
             </Button>
-            <Button
-              className=" text-white bg-red-600 hover:bg-red-800 cursor-pointer"
-              // variant="destructive"
-              onClick={handleDelete}
-            >
-              Delete
-            </Button>
+            {loading ? (
+              <Button
+                className=" text-white bg-red-600 hover:bg-red-800 cursor-pointer"
+                disabled
+              >
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Deleting...
+              </Button>
+            ) : (
+              <Button
+                className=" text-white bg-red-600 hover:bg-red-800 cursor-pointer"
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
