@@ -154,9 +154,7 @@ const Dashboard = () => {
     if (!selectedEntryId) return;
     try {
       const res = await axios.delete(
-        `${
-          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
-        }/api/entry/delete/${id}`,
+        `https://spendly-lm8q.onrender.com/api/entry/delete/${id}`,
         {
           withCredentials: true,
         }
