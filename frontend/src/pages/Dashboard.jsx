@@ -284,7 +284,6 @@ const Dashboard = () => {
         {/* <Card> */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
           <Card>
-            {/* <div className="p-4"> */}
             <CardHeader>
               <CardTitle className="text-xl font-semibold mb-4 sm:hidden">
                 Last 3 Months Summary
@@ -293,9 +292,15 @@ const Dashboard = () => {
                 Last 4 Months Summary
               </CardTitle>
             </CardHeader>
-
-            <MonthlyBarChart data={displayData} />
-            {/* </div> */}
+            {displayData.every(
+              (item) => item.income === 0 && item.expense === 0
+            ) ? (
+              <div className="p-4 text-center text-gray-500">
+                No previous month data available.
+              </div>
+            ) : (
+              <MonthlyBarChart data={displayData} />
+            )}
           </Card>
           <Card className="">
             <CardHeader>
@@ -303,12 +308,23 @@ const Dashboard = () => {
                 Your Financial Score
               </CardTitle>
             </CardHeader>
+
             <div className="p-4 flex items-center justify-center">
-              <FinancialScoreCircle
-                totalIncome={totalIncome}
-                totalExpense={totalExpense}
-                lastThree={lastThreeMonthsIncome}
-              />
+              {lastThreeMonthsIncome.every(
+                (item) => item.income === 0 && item.expense === 0
+              ) &&
+              totalIncome === 0 &&
+              totalExpense === 0 ? (
+                <div className=" text-center text-gray-500">
+                  Add an entry to get your financial score.
+                </div>
+              ) : (
+                <FinancialScoreCircle
+                  totalIncome={totalIncome}
+                  totalExpense={totalExpense}
+                  lastThree={lastThreeMonthsIncome}
+                />
+              )}
             </div>
           </Card>
         </div>
@@ -317,7 +333,7 @@ const Dashboard = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-slate-800 text-xl">
-              Your list of entries
+              Your List of Entries
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -455,7 +471,7 @@ const Dashboard = () => {
               <TableBody>
                 {entries.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center">
+                    <TableCell colSpan={7} className="text-center">
                       No entries found
                     </TableCell>
                   </TableRow>
@@ -495,23 +511,25 @@ const Dashboard = () => {
                 )}
               </TableBody>
             </Table>
-            <div className="flex justify-end mt-4 gap-2">
-              <Button
-                variant="outline"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-              >
-                Previous
-              </Button>
+            {entries.length > 0 && (
+              <div className="flex justify-end mt-4 gap-2">
+                <Button
+                  variant="outline"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                >
+                  Previous
+                </Button>
 
-              <Button
-                variant="outline"
-                disabled={currentPage === totalPages || totalPages === 0}
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-              >
-                Next
-              </Button>
-            </div>
+                <Button
+                  variant="outline"
+                  disabled={currentPage === totalPages || totalPages === 0}
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

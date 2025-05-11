@@ -69,7 +69,7 @@ module.exports.getMonthlyIncome = async (req, res) => {
     const userId = req.user.id;
 
     const now = new Date();
-    const start = new Date(now.getFullYear(), now.getMonth(), 1); // May 1
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
     const end = new Date(
       now.getFullYear(),
       now.getMonth() + 1,

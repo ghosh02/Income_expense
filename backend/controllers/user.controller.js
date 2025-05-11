@@ -34,7 +34,7 @@ module.exports.register = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({
-        message: "Registered successful",
+        message: "Registered successfully",
         success: true,
         token,
         user: userData,
@@ -73,7 +73,7 @@ module.exports.login = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
       .json({
-        message: "Login successful",
+        message: "Logged in successfully",
         success: true,
         token,
         user: userData,
@@ -88,7 +88,7 @@ module.exports.logout = async (req, res) => {
     return res
       .cookie("token", "", { maxAge: 0 })
       .status(201)
-      .json({ message: "Loggedout successful", success: true });
+      .json({ message: "Logged out successfully", success: true });
   } catch (error) {
     console.log(error);
   }
