@@ -133,12 +133,16 @@ const AddEntry = ({ onClose }) => {
           onValueChange={(val) => handleChange("type", val)}
           value={entryData.type}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full cursor-pointer">
             <SelectValue placeholder="Select type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="income">Income</SelectItem>
-            <SelectItem value="expense">Expense</SelectItem>
+            <SelectItem className="cursor-pointer" value="income">
+              Income
+            </SelectItem>
+            <SelectItem className="cursor-pointer" value="expense">
+              Expense
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -150,12 +154,12 @@ const AddEntry = ({ onClose }) => {
           value={entryData.category}
           disabled={!entryData.type}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full cursor-pointer">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
             {availableCategories.map((cat) => (
-              <SelectItem key={cat} value={cat}>
+              <SelectItem className="cursor-pointer" key={cat} value={cat}>
                 {cat}
               </SelectItem>
             ))}
@@ -169,12 +173,16 @@ const AddEntry = ({ onClose }) => {
           onValueChange={(val) => handleChange("paymentMethod", val)}
           value={entryData.paymentMethod}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full cursor-pointer">
             <SelectValue placeholder="Select payment method" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="online">Online</SelectItem>
-            <SelectItem value="offline">Offline</SelectItem>
+            <SelectItem className="cursor-pointer" value="online">
+              Online
+            </SelectItem>
+            <SelectItem className="cursor-pointer" value="offline">
+              Offline
+            </SelectItem>
           </SelectContent>
         </Select>
       </div>

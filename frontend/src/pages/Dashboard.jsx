@@ -349,125 +349,130 @@ const Dashboard = () => {
           </CardHeader>
           <CardContent>
             {/* grid grid-cols-1 md:grid-cols-6 */}
-            <AnimatePresence>
-              {isFilterOpen ? (
-                <motion.div
-                  key="filters"
-                  initial={{ opacity: 0, height: 0, y: -10 }}
-                  animate={{ opacity: 1, height: "auto", y: 0 }}
-                  exit={{ opacity: 0, height: 0, y: 0 }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  <div className=" flex flex-wrap  items-center max-md:gap-4 gap-6 mb-4">
-                    <Select
-                      value={filters.type}
-                      onValueChange={(val) =>
-                        setFilters((prev) => ({ ...prev, type: val }))
-                      }
-                    >
-                      <SelectTrigger className=" border border-black [&>span]:text-black [&_[data-placeholder]]:text-gray-400 cursor-pointer">
-                        <SelectValue placeholder="Select type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem className="text-black" value="income">
-                          Income
-                        </SelectItem>
-                        <SelectItem value="expense">Expense</SelectItem>
-                      </SelectContent>
-                    </Select>
+            {entries.length > 0 && (
+              <AnimatePresence>
+                {isFilterOpen ? (
+                  <motion.div
+                    key="filters"
+                    initial={{ opacity: 0, height: 0, y: -10 }}
+                    animate={{ opacity: 1, height: "auto", y: 0 }}
+                    exit={{ opacity: 0, height: 0, y: 0 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className=" flex flex-wrap  items-center max-md:gap-4 gap-6 mb-4">
+                      <Select
+                        value={filters.type}
+                        onValueChange={(val) =>
+                          setFilters((prev) => ({ ...prev, type: val }))
+                        }
+                      >
+                        <SelectTrigger className=" border border-black [&>span]:text-black [&_[data-placeholder]]:text-gray-400 cursor-pointer">
+                          <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem className="text-black" value="income">
+                            Income
+                          </SelectItem>
+                          <SelectItem value="expense">Expense</SelectItem>
+                        </SelectContent>
+                      </Select>
 
-                    <Select
-                      className="max-sm:hidden"
-                      value={filters.paymentMethod}
-                      onValueChange={(val) =>
-                        setFilters((prev) => ({ ...prev, paymentMethod: val }))
-                      }
-                    >
-                      <SelectTrigger className="max-sm:hidden border border-black [&>span]:text-black [&_[data-placeholder]]:text-gray-400 cursor-pointer">
-                        <SelectValue placeholder="Payment method" />
-                      </SelectTrigger>
-                      <SelectContent className="text-black">
-                        <SelectItem value="online">Online</SelectItem>
-                        <SelectItem value="offline">Offline</SelectItem>
-                      </SelectContent>
-                    </Select>
-
-                    <Select
-                      value={filters.category}
-                      onValueChange={(val) =>
-                        setFilters((prev) => ({ ...prev, category: val }))
-                      }
-                    >
-                      <SelectTrigger className=" border border-black [&>span]:text-black [&_[data-placeholder]]:text-gray-400 cursor-pointer">
-                        <SelectValue placeholder="Category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Income">Income</SelectItem>
-                        <SelectItem value="Food">Food</SelectItem>
-                        <SelectItem value="Housing">Housing</SelectItem>
-                        <SelectItem value="Education">Education</SelectItem>
-                        <SelectItem value="Medical">Medical</SelectItem>
-                        <SelectItem value="Travel">Travel</SelectItem>
-                        <SelectItem value="Others">Others</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <div className="flex items-center gap-2 max-sm:hidden">
-                      <Label className="text-black">From</Label>
-                      <Input
-                        className=" max-md:w-[140px] lg:w-[160px] border border-black cursor-pointer"
-                        type="date"
-                        value={filters.startDate}
-                        onChange={(e) =>
+                      <Select
+                        className="max-sm:hidden"
+                        value={filters.paymentMethod}
+                        onValueChange={(val) =>
                           setFilters((prev) => ({
                             ...prev,
-                            startDate: e.target.value,
+                            paymentMethod: val,
                           }))
                         }
-                      />
-                    </div>
-                    <div className="flex items-center gap-2 max-sm:hidden">
-                      <Label className="text-black">To</Label>
-                      {/* <p>To</p> */}
-                      <Input
-                        className="max-md:w-[140px] lg:w-[160px] border border-black cursor-pointer"
-                        type="date"
-                        value={filters.endDate}
-                        onChange={(e) =>
-                          setFilters((prev) => ({
-                            ...prev,
-                            endDate: e.target.value,
-                          }))
+                      >
+                        <SelectTrigger className="max-sm:hidden border border-black [&>span]:text-black [&_[data-placeholder]]:text-gray-400 cursor-pointer">
+                          <SelectValue placeholder="Payment method" />
+                        </SelectTrigger>
+                        <SelectContent className="text-black">
+                          <SelectItem value="online">Online</SelectItem>
+                          <SelectItem value="offline">Offline</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <Select
+                        value={filters.category}
+                        onValueChange={(val) =>
+                          setFilters((prev) => ({ ...prev, category: val }))
                         }
-                      />
+                      >
+                        <SelectTrigger className=" border border-black [&>span]:text-black [&_[data-placeholder]]:text-gray-400 cursor-pointer">
+                          <SelectValue placeholder="Category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Income">Income</SelectItem>
+                          <SelectItem value="Food">Food</SelectItem>
+                          <SelectItem value="Housing">Housing</SelectItem>
+                          <SelectItem value="Education">Education</SelectItem>
+                          <SelectItem value="Medical">Medical</SelectItem>
+                          <SelectItem value="Travel">Travel</SelectItem>
+                          <SelectItem value="Others">Others</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <div className="flex items-center gap-2 max-sm:hidden">
+                        <Label className="text-black">From</Label>
+                        <Input
+                          className=" max-md:w-[140px] lg:w-[160px] border border-black cursor-pointer"
+                          type="date"
+                          value={filters.startDate}
+                          onChange={(e) =>
+                            setFilters((prev) => ({
+                              ...prev,
+                              startDate: e.target.value,
+                            }))
+                          }
+                        />
+                      </div>
+                      <div className="flex items-center gap-2 max-sm:hidden">
+                        <Label className="text-black">To</Label>
+                        {/* <p>To</p> */}
+                        <Input
+                          className="max-md:w-[140px] lg:w-[160px] border border-black cursor-pointer"
+                          type="date"
+                          value={filters.endDate}
+                          onChange={(e) =>
+                            setFilters((prev) => ({
+                              ...prev,
+                              endDate: e.target.value,
+                            }))
+                          }
+                        />
+                      </div>
+                      <div
+                        className="flex items-center justify-center border-1 border-black p-1 rounded-md cursor-pointer"
+                        onClick={() => {
+                          setIsFilterOpen(false);
+                          setFilters({
+                            type: "",
+                            paymentMethod: "",
+                            category: "",
+                            startDate: "",
+                            endDate: "",
+                          });
+                        }}
+                      >
+                        <X />
+                      </div>
                     </div>
-                    <div
-                      className="flex items-center justify-center border-1 border-black p-1 rounded-md cursor-pointer"
-                      onClick={() => {
-                        setIsFilterOpen(false);
-                        setFilters({
-                          type: "",
-                          paymentMethod: "",
-                          category: "",
-                          startDate: "",
-                          endDate: "",
-                        });
-                      }}
-                    >
-                      <X />
-                    </div>
+                  </motion.div>
+                ) : (
+                  <div className="flex items-center gap-2 mb-2 ">
+                    {/* <Label className="text-black">Filter</Label> */}
+                    <ListFilter
+                      className="cursor-pointer"
+                      onClick={() => setIsFilterOpen(true)}
+                    />
                   </div>
-                </motion.div>
-              ) : (
-                <div className="flex items-center gap-2 mb-2 ">
-                  {/* <Label className="text-black">Filter</Label> */}
-                  <ListFilter
-                    className="cursor-pointer"
-                    onClick={() => setIsFilterOpen(true)}
-                  />
-                </div>
-              )}
-            </AnimatePresence>
+                )}
+              </AnimatePresence>
+            )}
             <Table>
               <TableHeader>
                 <TableRow>
@@ -477,6 +482,7 @@ const Dashboard = () => {
                   <TableHead className="max-sm:hidden">Payment</TableHead>
                   <TableHead>Amount</TableHead>
                   <TableHead className="max-sm:hidden">Description</TableHead>
+                  <TableHead className="max-sm:hidden">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

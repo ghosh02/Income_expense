@@ -3,6 +3,18 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  color: #111111;
+}
+input[type="date"] {
+  color: #111111;
+}
+
+/* Chrome/Edge only */
+input[type="date"]::placeholder {
+  color: #111111;
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
