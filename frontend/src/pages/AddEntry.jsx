@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setEntry } from "../../redux/entrySlice";
 import { toast } from "sonner";
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
 import useGetAllEntries from "../../hooks/useGetAllEntry";
 import useGetTotalExpense from "../../hooks/useGetTotalExpense";
 import useGetTotalIncome from "../../hooks/useGetTotalIncome";
