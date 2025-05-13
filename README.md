@@ -26,7 +26,7 @@ A full-stack MERN (MongoDB, Express, React, Node.js) application to manage your 
 - Monthly breakdown of finances
 - Summary of previous 3 months
 
-### 🔍 Filtering & Search
+### 🔍 Filtering 
 - Filter entries by:
   - Type
   - Date or date range
