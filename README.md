@@ -1,9 +1,12 @@
  # 💰SPENDLY - A Expense Management App
 
-A full-stack MERN (MongoDB, Express, React, Node.js) application to manage your personal income and expenses. The app allows users to add, edit, delete, and filter their transactions with a clean and modern UI, built using Tailwind CSS and shadcn/ui components.
+A full-stack MERN (MongoDB, Express, React, Node.js) application to manage your personal income and expenses. The app allows users to add, delete, and filter their transactions with a clean and modern UI, built using Tailwind CSS and shadcn/ui components.
 
 ---
-
+## 🌐 Live Demo
+### 🔗 Link: [https://spendly-lm8q.onrender.com/](https://spendly-lm8q.onrender.com/)
+---
+  
 ## 🚀 Features
 
 ### 🔐 Authentication
@@ -61,24 +64,24 @@ A full-stack MERN (MongoDB, Express, React, Node.js) application to manage your 
 git clone https://github.com/ghosh02/spendly.git
 cd spendly
 ```
-# Then move the pachage.json, pachage.json and .env file into the Backend folder
- Setup Backend
+### 2. Then move the pachage.json, pachage.json and .env file into the Backend folder
+### 3. Setup Backend
 ```bash
 cd backend
 npm install
 ```
-crete a .env file
+### 4. crete a .env file
 ```bash
 MONGO_URI=your_mongo_db_connection_string
 JWT_SECRET=your_jwt_secret
 PORT=5000
 ```
-Go to the Package.json file add this dev command
+### 5. Go to the Package.json file add this dev command
 ```bash
 "dev": "nodemon index.js"
 
 ```
-Setup Frontend
+### 6. Setup Frontend
 ```bash
 cd frontend
 npm install
